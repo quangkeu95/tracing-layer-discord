@@ -15,7 +15,6 @@ pub(crate) async fn worker(mut rx: ChannelReceiver) {
                 let webhook_url = payload.webhook_url().to_string();
                 let payload =
                     serde_json::to_string(&payload).expect("failed to deserialize discord payload, this is a bug");
-                println!("sending discord message: {}", payload);
 
                 let mut retries = 0;
                 while retries < MAX_RETRIES {
@@ -27,14 +26,10 @@ pub(crate) async fn worker(mut rx: ChannelReceiver) {
                         .await
                     {
                         Ok(res) => {
-                            println!("discord message sent: {:?}", &res);
                             let res_text = res.text().await.unwrap();
-                            println!("discord message response: {}", res_text);
                             break; // Success, break out of the retry loop
                         }
-                        Err(e) => {
-                            println!("{}", format!("failed to send discord message: {}", e));
-                        }
+                        Err(e) => {}
                     };
 
                     // Exponential backoff - increase the delay between retries

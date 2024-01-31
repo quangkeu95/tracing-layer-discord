@@ -310,11 +310,6 @@ impl DiscordLayer {
         // Truncate error_message if it exceeds the limit
         let mut truncated_message = String::new();
         if message.chars().count() > MAX_ERROR_MESSAGE_CHARS {
-            println!(
-                "Truncating message to {} characters, original: {}",
-                MAX_ERROR_MESSAGE_CHARS,
-                message
-            );
             let mut char_count = 0;
             for c in message.chars() {
                 char_count += 1;
